@@ -14,13 +14,10 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
   const profile = await currentProfile();
 
   if (!profile) {
-    console.log("!profile");
     return redirectToSignIn();
   }
 
-  console.log("params", params.inviteCode);
   if (!params.inviteCode) {
-    console.log("one");
     return redirect("/");
   }
 
@@ -33,41 +30,36 @@ const InviteCodePage = async ({ params }: InviteCodePageProps) => {
     },
   });
 
-  //   http://localhost:3000/invite/c3b9dbb3-900e-4e6a-bba0-1a6363c8d11a
-
   if (existingServer) {
-    console.log('two')
-    console.log('two',  existingServer)
     return redirect(`/servers/${existingServer.id}`);
   }
 
-  const existingServers = await db.server.findUnique({
+  const existingServerMembers = await db.server.findUnique({
     where: {
       inviteCode: params.inviteCode,
     },
   });
 
-  console.log("existingServers", existingServers);
-
-  const server = await db.server.update({
-    where: {
-      inviteCode: params.inviteCode,
-    },
-    data: {
-      members: {
-        create: [
-          {
-            profileId: profile.id,
-          },
-        ],
+  if (existingServerMembers) {
+    const server = await db.server.update({
+      where: {
+        inviteCode: params.inviteCode,
       },
-      memberIds: [...existingServers.memberIds, profile.id]
-    },
-  });
+      data: {
+        members: {
+          create: [
+            {
+              profileId: profile.id,
+            },
+          ],
+        },
+        memberIds: [...existingServerMembers.memberIds, profile.id],
+      },
+    });
 
-  if (server) {
-    console.log("three");
-    return redirect(`/servers/${server.id}`);
+    if (server) {
+      return redirect(`/servers/${server.id}`);
+    }
   }
 
   return null;

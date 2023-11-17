@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ActionTooltip } from "../ActionTooltip";
 
-
 interface NavigationItemProps {
     id: string;
     imageUrl: string;
@@ -48,6 +47,7 @@ export const NavigationItem = ({ id, imageUrl, name } : NavigationItemProps) => 
                         fill
                         src={imageUrl}
                         alt="Channel"
+                        sizes="(max-width: 600px) 100vw, (max-width: 1000px) 50vw, 33.3vw"
                     />
                 </div>
             </button>

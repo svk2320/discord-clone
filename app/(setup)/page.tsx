@@ -12,7 +12,7 @@ const SetupPage = async () => {
       memberIds: {
         hasSome: [profile.id],
       },
-      },    
+    },
   });
 
   if (server) {
@@ -20,6 +20,6 @@ const SetupPage = async () => {
   }
 
   return <InitialModal />;
-}
- 
+};
+
 export default SetupPage;
