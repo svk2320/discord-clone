@@ -68,15 +68,18 @@ export const InviteModal = () => {
             <Input
               className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
               value={inviteUrl}
+              disabled={isLoading}
             />
-            <Button size="icon" onClick={onCopy}>
+            <Button size="icon" onClick={onCopy} disabled={isLoading}>
               {copied ? <Check /> : <Copy className="w-4 h-4" />}
             </Button>
           </div>
           <Button
+            disabled={isLoading}
             variant="link"
             size="sm"
             className="text-xs text-zinc-500 mt-4"
+            onClick={onNew}
           >
             Generate a new link
             <RefreshCw className="h-4 w-4 ml-2" />

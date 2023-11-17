@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { currentProfie } from "@/lib/current-profile";
+import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 
 import { Separator } from "../ui/separator";
@@ -11,7 +11,7 @@ import { ModeToggle } from "../mode-toggle";
 import { UserButton } from "@clerk/nextjs";
 
 const NavigationSidebar = async () => {
-  const profile = await currentProfie();
+  const profile = await currentProfile();
 
   if (!profile) {
     return redirect("/");
@@ -19,12 +19,10 @@ const NavigationSidebar = async () => {
 
   const servers = await db.server.findMany({
     where: {
-      // members: {
-      // some: {
-      profileId: profile.id,
-      // }
-      // }
-    },
+      memberIds: {
+        hasSome: [profile.id],
+      },
+      },
   });
 
   return (
@@ -44,13 +42,13 @@ const NavigationSidebar = async () => {
       </ScrollArea>
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
-        <UserButton 
-            afterSignOutUrl="/"
-            appearance={{
-                elements: {
-                    avatarBox: "h-[48px] w-[48px]"
-                }
-            }}
+        <UserButton
+          afterSignOutUrl="/"
+          appearance={{
+            elements: {
+              avatarBox: "h-[48px] w-[48px]",
+            },
+          }}
         />
       </div>
     </div>
