@@ -3,7 +3,6 @@ import { MemberRole } from "@prisma/client";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { ServerWithMembersWithProfiles } from "@/types";
 
 export async function POST(
   req: Request
@@ -30,14 +29,9 @@ export async function POST(
     const server = await db.server.update({
       where: {
         id: serverId,
-        members: {
-          some: {
-            profileId: profile.id,
-            role: {
-              in: [MemberRole.ADMIN, MemberRole.MODERATOR]
-            }
-          }
-        }
+          memberIds: {
+            hasSome: [profile.id],
+          },
       },
       data: {
         channels: {
@@ -50,9 +44,7 @@ export async function POST(
       }
     });
 
-    const updatedServer = server as ServerWithMembersWithProfiles;
-
-    return NextResponse.json(updatedServer);
+    return NextResponse.json(server);
   } catch (error) {
     console.log("CHANNELS_POST", error);
     return new NextResponse("Internal Error", { status: 500 });
