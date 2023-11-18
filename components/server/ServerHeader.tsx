@@ -18,7 +18,7 @@ import {
   User,
   UserPlus,
 } from "lucide-react";
-import { useModal } from "@/hooks/use-modal-store";
+import { useModal } from "@/hooks/useModalStore";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;

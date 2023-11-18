@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { currentProfile } from "@/lib/currentProfile";
+import { db } from "@/lib/database";
 
 export async function DELETE(
   req: Request,
@@ -18,7 +18,7 @@ export async function DELETE(
       where: {
         id: params.serverId,
         profileId: profile.id,
-      }
+      },
     });
 
     return NextResponse.json(server);
@@ -48,7 +48,7 @@ export async function PATCH(
       data: {
         name,
         imageUrl,
-      }
+      },
     });
 
     return NextResponse.json(server);

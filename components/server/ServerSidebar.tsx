@@ -1,5 +1,5 @@
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { currentProfile } from "@/lib/currentProfile";
+import { db } from "@/lib/database";
 import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 import ServerHeader from "./ServerHeader";
@@ -92,7 +92,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                   id: channel.id,
                   name: channel.name,
                   icon: iconMap[channel.type],
-                }))
+                })),
               },
               {
                 label: "Voice Channels",
@@ -195,11 +195,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
             />
             <div className="space-y-[2px]">
               {members.map((member) => (
-                <ServerMember
-                  key={member.id}
-                  member={member}
-                  server={server}
-                />
+                <ServerMember key={member.id} member={member} server={server} />
               ))}
             </div>
           </div>

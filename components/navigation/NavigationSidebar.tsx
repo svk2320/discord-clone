@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation";
 
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { currentProfile } from "@/lib/currentProfile";
+import { db } from "@/lib/database";
 
 import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
 import NavigationAction from "./NavigationAction";
 import { NavigationItem } from "./NavigationItem";
-import { ModeToggle } from "../mode-toggle";
+import { ModeToggle } from "../ModeToggle";
 import { UserButton } from "@clerk/nextjs";
 
 const NavigationSidebar = async () => {
@@ -22,7 +22,7 @@ const NavigationSidebar = async () => {
       memberIds: {
         hasSome: [profile.id],
       },
-      },
+    },
   });
 
   return (

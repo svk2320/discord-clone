@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { currentProfile } from "@/lib/currentProfile";
+import { db } from "@/lib/database";
 
 export async function PATCH(
   req: Request,
@@ -19,33 +19,35 @@ export async function PATCH(
     }
 
     const existingMembers = await db.server.findMany({
-        where: {
-            id: params.serverId
-        }
-    })
-    
-    const remainingMembers = existingMembers[0].memberIds.filter(item => item !== profile.id)
+      where: {
+        id: params.serverId,
+      },
+    });
+
+    const remainingMembers = existingMembers[0].memberIds.filter(
+      (item) => item !== profile.id
+    );
 
     const server = await db.server.update({
       where: {
         id: params.serverId,
         profileId: {
-          not: profile.id
+          not: profile.id,
         },
         memberIds: {
-          hasSome: [ profile.id ]
-        }
+          hasSome: [profile.id],
+        },
       },
       data: {
         members: {
           deleteMany: {
-            profileId: profile.id
-          }
+            profileId: profile.id,
+          },
         },
         memberIds: {
-            set: [...remainingMembers],
-      }
-      }
+          set: [...remainingMembers],
+        },
+      },
     });
 
     return NextResponse.json(server);

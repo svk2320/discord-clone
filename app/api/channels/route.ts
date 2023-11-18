@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { MemberRole } from "@prisma/client";
 
-import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
+import { currentProfile } from "@/lib/currentProfile";
+import { db } from "@/lib/database";
 
-export async function POST(
-  req: Request
-) {
+export async function POST(req: Request) {
   try {
     const profile = await currentProfile();
     const { name, type } = await req.json();
@@ -29,9 +27,9 @@ export async function POST(
     const server = await db.server.update({
       where: {
         id: serverId,
-          memberIds: {
-            hasSome: [profile.id],
-          },
+        memberIds: {
+          hasSome: [profile.id],
+        },
       },
       data: {
         channels: {
@@ -39,9 +37,9 @@ export async function POST(
             profileId: profile.id,
             name,
             type,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
     return NextResponse.json(server);
