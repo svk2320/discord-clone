@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { MemberRole } from "@prisma/client";
+// import { MemberRole } from "@prisma/client";
 
 import { currentProfile } from "@/lib/currentProfile";
 import { db } from "@/lib/database";
@@ -29,13 +29,8 @@ export async function DELETE(
     const server = await db.server.update({
       where: {
         id: serverId,
-        members: {
-          some: {
-            profileId: profile.id,
-            role: {
-              in: [MemberRole.ADMIN, MemberRole.MODERATOR],
-            },
-          },
+        memberIds: {
+          hasSome: [profile.id],
         },
       },
       data: {
@@ -87,13 +82,16 @@ export async function PATCH(
     const server = await db.server.update({
       where: {
         id: serverId,
-        members: {
-          some: {
-            profileId: profile.id,
-            role: {
-              in: [MemberRole.ADMIN, MemberRole.MODERATOR],
-            },
-          },
+        // members: {
+        //   some: {
+        //     profileId: profile.id,
+        //     role: {
+        //       in: [MemberRole.ADMIN, MemberRole.MODERATOR],
+        //     },
+        //   },
+        // },
+        memberIds: {
+          hasSome: [profile.id],
         },
       },
       data: {
