@@ -23,8 +23,8 @@ export async function PATCH(
             id: params.serverId
         }
     })
-
     
+    const remainingMembers = existingMembers[0].memberIds.filter(item => item !== profile.id)
 
     const server = await db.server.update({
       where: {
@@ -43,7 +43,7 @@ export async function PATCH(
           }
         },
         memberIds: {
-            set: [],
+            set: [...remainingMembers],
       }
       }
     });
