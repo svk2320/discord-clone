@@ -6,7 +6,7 @@ import { currentProfile } from "@/lib/currentProfile";
 import ChatHeader from "@/components/chat/ChatHeader";
 import ChatInput from "@/components/chat/ChatInput";
 import ChatMessages from "@/components/chat/ChatMessages";
-import MediaRoom from "@/components/MediaRoom";
+import { MediaRoom } from "@/components/MediaRoom";
 import { db } from "@/lib/database";
 
 interface ChannelIdPageProps {
@@ -48,6 +48,29 @@ const ChannelIdPage = async ({
         name={channel.name}
         serverId={channel.serverId}
         type="channel"
+      />
+      <ChatMessages
+        name = {channel.name}
+        member = {member}
+        chatId = {channel.id}
+        apiUrl = "/api/messages"
+        socketUrl = "/api/socket/messages"
+        socketQuery = {{
+          channelId: channel.id,
+          serverId: channel.serverId
+        }}
+        paramKey = "channelId"
+        paramValue = {channel.id}
+        type = "channel"
+      />
+      <ChatInput 
+        apiUrl = "/api/socket/messages"
+        query = {{
+          channelId: channel.id,
+          serverId: channel.serverId
+        }}
+        name = {channel.name}
+        type = "channel"
       />
     </div>
    );

@@ -11,6 +11,8 @@ interface ModalData {
   query?: Record<string, any>;
 }
 
+// Notes
+
 interface ModalStore {
   type: ModalType | null;
   data: ModalData;
