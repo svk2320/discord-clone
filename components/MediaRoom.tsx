@@ -26,13 +26,13 @@ export const MediaRoom = ({
 
   useEffect(() => {
     console.log("user", user);
-    if (!user?.firstName || !user?.lastName) return;
+    // if (!user?.firstName || !user?.lastName) return;
 
-    const name = `${user.firstName} ${user.lastName}`;
+    // const name = `${user.firstName} ${user.lastName}`;
 
     (async () => {
       try {
-        const resp = await fetch(`/api/livekit?room=${chatId}&username=${name}`);
+        const resp = await fetch(`/api/livekit?room=${chatId}&username=${"name"}`);
         const data = await resp.json();
         setToken(data.token);
         console.log("data-data", data)
