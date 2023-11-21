@@ -24,27 +24,26 @@ export default async function handler(
     if (!conversationId) {
       return res.status(400).json({ error: "Conversation ID missing" });
     }
-          
+
     if (!content) {
       return res.status(400).json({ error: "Content missing" });
     }
 
-
     const conversation = await db.conversation.findFirst({
       where: {
         id: conversationId as string,
-        OR: [
-          {
-            memberOne: {
-              profileId: profile.id,
-            }
-          },
-          {
-            memberTwo: {
-              profileId: profile.id,
-            }
-          }
-        ]
+        // OR: [
+        //   {
+        //     memberOne: {
+        //       profileId: profile.id,
+        //     }
+        //   },
+        //   {
+        //     memberTwo: {
+        //       profileId: profile.id,
+        //     }
+        //   }
+        // ]
       },
       include: {
         memberOne: {
